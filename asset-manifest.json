@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/what-to-buy/static/css/main.4f8a6d77.chunk.css",
+    "main.js": "/what-to-buy/static/js/main.4dc65968.chunk.js",
+    "main.js.map": "/what-to-buy/static/js/main.4dc65968.chunk.js.map",
+    "runtime-main.js": "/what-to-buy/static/js/runtime-main.771fb3f9.js",
+    "runtime-main.js.map": "/what-to-buy/static/js/runtime-main.771fb3f9.js.map",
+    "static/js/2.df62b7cc.chunk.js": "/what-to-buy/static/js/2.df62b7cc.chunk.js",
+    "static/js/2.df62b7cc.chunk.js.map": "/what-to-buy/static/js/2.df62b7cc.chunk.js.map",
+    "index.html": "/what-to-buy/index.html",
+    "precache-manifest.5076c82a68870660ea7e3bab88d76fb0.js": "/what-to-buy/precache-manifest.5076c82a68870660ea7e3bab88d76fb0.js",
+    "service-worker.js": "/what-to-buy/service-worker.js",
+    "static/css/main.4f8a6d77.chunk.css.map": "/what-to-buy/static/css/main.4f8a6d77.chunk.css.map",
+    "static/js/2.df62b7cc.chunk.js.LICENSE.txt": "/what-to-buy/static/js/2.df62b7cc.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.771fb3f9.js",
+    "static/js/2.df62b7cc.chunk.js",
+    "static/css/main.4f8a6d77.chunk.css",
+    "static/js/main.4dc65968.chunk.js"
+  ]
+}
