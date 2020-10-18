@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 import { auth } from 'firebase';
-// import { zakupy, kategorie } from './helpers/const';
+// import {  categories } from './helpers/const';
 
 const config = {
     apiKey: "AIzaSyB_psG_2HT8VisbjB3szsMjZsnlfQIS9ko",
@@ -21,8 +21,7 @@ const addProducts = (ref, data) => {
     fbDB.ref(ref).set(data);
 }
 
-// addProducts('zakupy', zakupy);
-// addProducts('kategorie', kategorie);
+// addProducts('categories', categories);
 
 export {
     fbDB,
