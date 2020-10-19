@@ -1,3 +1,20 @@
+:root {
+    --chemia: hsl(90, 45%, 55%);
+    --kasze: hsl(30, 45%, 55%);
+    --konserwy: hsl(200, 45%, 55%);
+    --makarony: hsl(60, 45%, 55%);
+    --mixso_ryby: hsl(360, 45%, 55%);
+    --nabiax: hsl(180, 45%, 55%);
+    --napoje: hsl(190, 45%, 55%);
+    --owoce: hsl(20, 45%, 55%);
+    --pieczywo: hsl(40, 45%, 55%);
+    --przybory: hsl(230, 45%, 55%);
+    --przyprawy: hsl(140, 45%, 55%);
+    --sypkie: hsl(245, 45%, 55%);
+    --sxodycze: hsl(310, 45%, 55%);
+    --uxywki: hsl(350, 45%, 55%);
+    --warzywa: hsl(100, 45%, 55%);
+}
 body {
     font-size: 16px;
     background-color: #ccc;
@@ -22,7 +39,7 @@ body {
 .list hr {
     border: 1px solid #000;
     width: 100%;
-    margin: 10px 0 10px;
+    margin: 10px 0 30px;
 }
 .category {
     display: inline-flex;
@@ -42,106 +59,104 @@ body {
     cursor: pointer;
 }
 div.chemia {
-    background-color: #7ada23;
+    background-color: var(--chemia);
 }
 .list span.chemia {
-    color: #7ada23;
+    color: var(--chemia);
 }
 div.pieczywo {
-    background-color: #FA9F42;
+    background-color: var(--pieczywo);
 }
 .list span.pieczywo {
-    color: #FA9F42;
+    color: var(--pieczywo);
 }
 div.nabiax {
-    background-color: #f1f6fb;
+    background-color: var(--nabiax);
 }
 .list span.nabiax {
-    color: #f1f6fb;
+    color: var(--nabiax);
 }
 div.napoje {
-    background-color: #60B2E5;
+    background-color: var(--napoje);
 }
 .list span.napoje {
-    color: #60B2E5;
+    color: var(--napoje);
 }
 div.uxywki {
-    background-color: #CA6F27;
+    background-color: var(--uxywki);
 }
 .list span.uxywki {
-    color: #CA6F27;
+    color: var(--uxywki);
 }
 div.sxodycze {
-    background-color: #964c53;
+    background-color: var(--sxodycze);
 }
 .list span.sxodycze {
-    color: #964c53;
+    color: var(--sxodycze);
 }
 div.kasze {
-    background-color: #e0682f;
+    background-color: var(--kasze);
 }
 .list span.kasze {
-    color: #e0682f;
+    color: var(--kasze);
 }
 div.sypkie {
-    background-color: #fff;
+    background-color: var(--sypkie);
 }
 .list span.sypkie {
-    color: #fff;
+    color: var(--sypkie);
 }
 div.przyprawy {
-    background-color: #4C934C;
+    background-color: var(--przyprawy);
 }
 .list span.przyprawy {
-    color: #4C934C;
+    color: var(--przyprawy);
 }
 div.makarony {
-    background-color: #edef70;
+    background-color: var(--makarony);
 }
 .list span.makarony {
-    color: #edef70;
+    color: var(--makarony);
 }
 div.mixso_ryby {
-    background-color: #E8806D;
+    background-color: var(--mixso_ryby);
 }
 .list span.mixso_ryby {
-    color: #E8806D;
+    color: var(--mixso_ryby);
 }
 div.owoce {
-    background-color: #ff6d28;
+    background-color: var(--owoce);
 }
 .list span.owoce {
-    color: #ff6d28;
+    color: var(--owoce);
 }
 div.warzywa {
-    background-color: #8AAA79;
+    background-color: var(--warzywa);
 }
 .list span.warzywa {
-    color: #8AAA79;
+    color: var(--warzywa);
 }
 div.konserwy {
-    background-color: #95a4dc;
+    background-color: var(--konserwy);
 }
 .list span.konserwy {
-    color: #95a4dc;
+    color: var(--konserwy);
 }
 div.przybory {
-    background-color: #EDF67D;
+    background-color: var(--przybory);
 }
 .list span.przybory {
-    color: #EDF67D;
+    color: var(--przybory);
 }
-.theRest div {
+/* .theRest div {
     opacity: .75;
-}
-
+} */
 .toBuy,
 .theRest {
     display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
 }
-
 
 @media only screen and (max-width: 960px) {
     body {
