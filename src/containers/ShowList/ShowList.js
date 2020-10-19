@@ -1,4 +1,5 @@
 import React, {Component } from 'react';
+import TopMenu from '../../components/TopMenu/TopMenu'
 
 import style from './ShowList.module.css';
 
@@ -12,16 +13,28 @@ class ShowList extends Component {
             'pobieranie danych...': true
         },
         categories: {
-        }
+        },
+        fontSize: 16,
+        undo: null
     }
 
     dbRef = 'categories'
+
+    changeFontSize = (e) => {
+        this.setState({fontSize: parseInt(this.state.fontSize) + parseInt(e.target.dataset.value)});
+    }
+    funcUndo = () => {
+        const u = this.state.undo;
+        console.log(this.state.undo)
+        fbDB.ref(`${this.dbRef}/${u.category}/products/${u.name}`).set(u.value);
+    }
 
     moveProduct = (e) => {
         let name = e.target.dataset.name;
         let category = e.target.dataset.category;
         let reverseValue = parseInt(e.target.dataset.value) === 0 ? 1 : 0;
         fbDB.ref(`${this.dbRef}/${category}/products/${name}`).set(reverseValue);
+        this.setState({ undo: {name: name, category: category, value: parseInt(e.target.dataset.value)}})
     }
 
     updateProductsFromDb = ref => {
@@ -64,7 +77,6 @@ class ShowList extends Component {
                     productsTheRest.push(product)
                 }
             })
-
             
             if (productsToBuy.length > 0) {
                 toBuy.push( this.categorySpan(toBuy, i, catName) )
@@ -76,9 +88,10 @@ class ShowList extends Component {
             }
             theRest.push( ...productsTheRest )
         })
-        
+
         return ( 
-            <div className={style.list}>
+            <div className={style.list} style={{fontSize: this.state.fontSize}}>
+                <TopMenu changeFontSize={this.changeFontSize} funcUndo={this.funcUndo}/>
                 <p>Do kupienia:</p>
                 <div className={style.toBuy}>
                     {toBuy}
