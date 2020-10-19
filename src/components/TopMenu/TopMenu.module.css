@@ -1,0 +1,16 @@
+.TopMenu {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+}
+.TopMenu div {
+    background-color: #aaa;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 35px ;
+    height: 35px;
+    padding: 0px 20px;
+    margin: 0px 5px 0px 0px;
+    cursor: pointer;
+}
