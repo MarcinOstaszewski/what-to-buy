@@ -5,6 +5,7 @@
 }
 .TopMenu div {
     background-color: #aaa;
+    border-radius: 0px 0px 0px 5px;
     display: inline-block;
     font-size: 20px;
     font-weight: bold;
@@ -13,4 +14,9 @@
     padding: 0px 20px;
     margin: 0px 5px 0px 0px;
     cursor: pointer;
+}
+.TopMenu div.true {
+    color: #999;
+    cursor: default;
+    pointer-events: none;
 }

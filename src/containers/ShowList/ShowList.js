@@ -15,18 +15,37 @@ class ShowList extends Component {
         categories: {
         },
         fontSize: 16,
-        undo: null
+        undo: [],
+        redo: []
     }
 
     dbRef = 'categories'
 
     changeFontSize = (e) => {
+        console.log(parseInt(e.target.dataset));
         this.setState({fontSize: parseInt(this.state.fontSize) + parseInt(e.target.dataset.value)});
     }
-    funcUndo = () => {
-        const u = this.state.undo;
-        console.log(this.state.undo)
-        fbDB.ref(`${this.dbRef}/${u.category}/products/${u.name}`).set(u.value);
+    funcUndoRedo = (e) => {
+        let dir = e.target.dataset.dir
+        const newUndo = [...this.state.undo];
+        const newRedo = [...this.state.redo];
+        let u, r;
+        if (dir === "u") {
+            u = newUndo.pop();
+            newRedo.push(u);
+            fbDB.ref(`${this.dbRef}/${u.category}/products/${u.name}`).set(u.value);
+        } 
+        if (dir === "r") {
+            r = newRedo.pop();
+            r.value = (r.value === 0) ? 1 : 0;
+            newUndo.push(r);
+            fbDB.ref(`${this.dbRef}/${r.category}/products/${r.name}`).set(r.value);
+        }
+        console.log(u, r, newUndo, newRedo)
+        this.setState({
+            undo: newUndo,
+            redo: newRedo
+        })
     }
 
     moveProduct = (e) => {
@@ -34,7 +53,9 @@ class ShowList extends Component {
         let category = e.target.dataset.category;
         let reverseValue = parseInt(e.target.dataset.value) === 0 ? 1 : 0;
         fbDB.ref(`${this.dbRef}/${category}/products/${name}`).set(reverseValue);
-        this.setState({ undo: {name: name, category: category, value: parseInt(e.target.dataset.value)}})
+        let currentUndo = [...this.state.undo];
+        currentUndo.push({name: name, category: category, value: parseInt(e.target.dataset.value)})
+        this.setState({ undo: currentUndo})
     }
 
     updateProductsFromDb = ref => {
@@ -91,7 +112,11 @@ class ShowList extends Component {
 
         return ( 
             <div className={style.list} style={{fontSize: this.state.fontSize}}>
-                <TopMenu changeFontSize={this.changeFontSize} funcUndo={this.funcUndo}/>
+                <TopMenu changeFontSize={this.changeFontSize} 
+                    funcUndoRedo={this.funcUndoRedo} 
+                    undo={this.state.undo.length === 0}
+                    redo={this.state.redo.length === 0}
+                    />
                 <p>Do kupienia:</p>
                 <div className={style.toBuy}>
                     {toBuy}
