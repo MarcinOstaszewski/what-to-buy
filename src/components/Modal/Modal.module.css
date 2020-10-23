@@ -1,0 +1,58 @@
+
+.backDrop {
+    position: fixed;
+    top: 0px;
+    left: -110vw;
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000099;
+    transition-duration: .5s;
+    }
+.backDrop.visible {
+    left: 0px;
+    transition-duration: .5s;
+}
+.modalWindow {
+    box-sizing: border-box;
+    position: absolute;
+    top: 0px;
+    left: -500px;
+    width: 500px;
+    height: 100%;
+    background-color: #fff;
+    text-align: left;
+    padding: 20px 0px 20px 20px;
+    transition-duration: .5s;
+    overflow: scroll;
+}
+.modalWindow.visible {
+    transition-duration: .5s;
+    left: 0px;
+}
+.newCategoryName {
+    padding: 5px;
+    outline: none;
+}
+.hideBackDrop {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 40px;
+    height: 40px;
+    background-color: #ccc;
+    border-radius: 0 0 0 8px;
+}
+.hideBackDrop::before,
+.hideBackDrop::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    right: 17px;
+    height: 30px;
+    width: 4px;
+    transform: rotate(45deg);
+    background-color: #000;
+}
+.hideBackDrop::after {
+    transform: rotate(-45deg);
+}
