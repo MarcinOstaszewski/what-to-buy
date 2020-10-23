@@ -1,17 +1,3 @@
-// doKupienia
-const zakupy = {
-    'mleko': 1,
-    'masło': 0, 
-    'chleb': 1, 
-    'bułki': 1, 
-    'herbata': 0, 
-    'kawa': 1,
-    'miód': 0,
-    'czekolada': 0,
-    'kakao': 0,
-    'jabłka': 1,
-}
-
 const categories = {
     pieczywo: {
         order: 0,
@@ -204,6 +190,5 @@ const categories = {
 }
 
 export {
-    zakupy,
     categories
 }
