@@ -1,0 +1,90 @@
+:root {
+  --chemia: hsl(290, 45%, 55%);
+  --kasze: hsl(30, 45%, 55%);
+  --konserwy: hsl(200, 45%, 55%);
+  --makarony: hsl(60, 45%, 55%);
+  --mixso_ryby: hsl(360, 45%, 55%);
+  --nabiax: hsl(180, 45%, 55%);
+  --napoje: hsl(190, 45%, 55%);
+  --owoce: hsl(20, 45%, 55%);
+  --pieczywo: hsl(40, 45%, 55%);
+  --przybory: hsl(230, 45%, 55%);
+  --przyprawy: hsl(140, 45%, 55%);
+  --sypkie: hsl(245, 45%, 55%);
+  --sxodycze: hsl(310, 45%, 55%);
+  --uxywki: hsl(350, 45%, 55%);
+  --warzywa: hsl(100, 45%, 55%);
+}
+body {
+  background-color: #fff;
+}
+.row {
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+}
+
+@mixin grid-generator($grid-columns) {
+  @for $i from 1 through $grid-columns {
+    .col-#{$i} {
+      width: percentage($i / $grid-columns);
+      // float: left;
+    }
+  }
+}
+@include grid-generator(12);
+
+@mixin headers-generator() {
+  @for $i from 1 through 6 {
+    h#{$i} {
+      font-size: 28 - $i * 2px;
+      margin-top: 36 - $i *2px;
+      margin-bottom: 10px;
+    }
+  }
+}
+@include headers-generator();
+
+@mixin colorClasses() {
+  @for $i from 0 through 36 {
+    input.hue-#{$i*10},
+    div.hue-#{$i*10} {
+      background-color: hsl($i*10 , 45%, 55%);
+    }
+    span.hue-#{$i} {
+      color: hsl($i*10, 45%, 55%);
+    }
+  }
+}
+@include colorClasses();
+
+div.chemia { background-color: var(--chemia); }
+span.chemia { color: var(--chemia); }
+div.pieczywo { background-color: var(--pieczywo); }
+span.pieczywo { color: var(--pieczywo); }
+div.nabiax { background-color: var(--nabiax); }
+span.nabiax { color: var(--nabiax); }
+div.napoje { background-color: var(--napoje); }
+span.napoje { color: var(--napoje); }
+div.uxywki { background-color: var(--uxywki); }
+span.uxywki { color: var(--uxywki); }
+div.sxodycze { background-color: var(--sxodycze); }
+span.sxodycze { color: var(--sxodycze); }
+div.kasze { background-color: var(--kasze); }
+span.kasze { color: var(--kasze); }
+div.sypkie { background-color: var(--sypkie); }
+span.sypkie { color: var(--sypkie); }
+div.przyprawy { background-color: var(--przyprawy); }
+span.przyprawy { color: var(--przyprawy); }
+div.makarony { background-color: var(--makarony); }
+span.makarony { color: var(--makarony); }
+div.mixso_ryby { background-color: var(--mixso_ryby); }
+span.mixso_ryby { color: var(--mixso_ryby); }
+div.owoce { background-color: var(--owoce); }
+span.owoce { color: var(--owoce); }
+div.warzywa { background-color: var(--warzywa); }
+span.warzywa { color: var(--warzywa); }
+div.konserwy { background-color: var(--konserwy); }
+span.konserwy { color: var(--konserwy); }
+div.przybory { background-color: var(--przybory); }
+span.przybory { color: var(--przybory); }
