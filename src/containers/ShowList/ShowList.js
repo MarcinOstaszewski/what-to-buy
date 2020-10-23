@@ -1,22 +1,23 @@
 import React, {Component } from 'react';
 import TopMenu from '../../components/TopMenu/TopMenu'
+// import InputField from '../../components/InputField/InputField';
+import Modal from '../../components/Modal/Modal';
+import ProductWithCheckbox from '../../components/ProductWithCheckbox/ProductWithCheckbox';
+import { fbDB } from '../../firebase';
 
 import style from './ShowList.module.css';
 
-import { 
-    fbDB, 
-} from '../../firebase';
-
 class ShowList extends Component {
     state = { 
-        zakupy: {
-            'pobieranie danych...': true
-        },
-        categories: {
-        },
+        categories: { 'Pobieranie danych': { products: { 'proszę_czekać...': 1 } } },
         fontSize: 16,
         undo: [],
-        redo: []
+        redo: [],
+        newCategoryName: "",
+        newProductName: "",
+        isModalVisible: "",
+        categoryClicked: "",
+        productsFromCategory: []
     }
 
     dbRef = 'categories'
@@ -66,11 +67,53 @@ class ShowList extends Component {
             console.log(err.code, err)
         })
     }
+    handleInputChange = e => {
+        console.log(e.target.id, e.target.value);
+        this.setState({ [e.target.id]: e.target.value.toUpperCase().replace(/ /g, "_") })
+    }
 
+    handleCategoryClick = e => {
+        const name = e.target.dataset.name;
+        let productsFromCategory = [];
+        for (const prod in this.state.categories[name].products) {
+            productsFromCategory.push(
+                <ProductWithCheckbox key={prod} prod={prod}/>
+            )
+        }
+        this.setState({ 
+            productsFromCategory: productsFromCategory,
+            isModalVisible: "visible",
+            categoryClicked: name,
+            newCategoryName: this.toUpperWithoutSpaces(name)
+        })
+    }
+
+    hideBackDrop = e => {
+        if (e.target === e.currentTarget) {
+            this.setState({ isModalVisible: "" })
+        }
+    }
+
+    toUpperWithoutSpaces = name => name.toUpperCase().replace(/ /g, "_")
     removeDiacrits = str => str.replace(/[ąćęłńóśźż]/ig, 'x');
 
     categorySpan = (group, i, catName) => {
-        return <span className={style[this.removeDiacrits(catName)]} key={group+i}>{catName.toUpperCase()}</span>
+        return  <span data-name={catName} 
+                     className={[style.categoryName, this.removeDiacrits(catName)].join(" ")} 
+                     onClick={this.handleCategoryClick}
+                     key={group+i}>
+                        {catName}
+                </span>
+    }
+
+    submitCategoryNameChange = e => {
+        e.preventDefault();
+        console.log(e.target);
+    }
+    submitNewProduct = e => {
+        e.preventDefault();
+        console.log(this.state.newProductName);
+        fbDB.ref(`${this.dbRef}/${this.state.categoryClicked}/products/${this.state.newProductName}`).set(1);
     }
 
     componentDidMount() { this.updateProductsFromDb(`${this.dbRef}`) }
@@ -84,7 +127,7 @@ class ShowList extends Component {
             let productsTheRest = [];
             Object.keys(catData.products).forEach( (prod, i) => {
                 let product = (
-                    <div className={[style.product, style[this.removeDiacrits(catName)]].join(" ")}
+                    <div className={[style.product, this.removeDiacrits(catName)].join(" ")}
                         key={this.removeDiacrits(catName)+i}
                         data-name={prod}
                         data-category={catName}
@@ -125,6 +168,19 @@ class ShowList extends Component {
                 <div className={style.theRest}>
                     {theRest}
                 </div>
+
+                <Modal  categoryClicked={this.state.categoryClicked}
+                        newCategoryName={this.state.newCategoryName}
+                        newProductName={this.state.newProductName}
+                        hideBackDrop={this.hideBackDrop}
+                        removeDiacrits={this.removeDiacrits}
+                        handleInputChange={this.handleInputChange}
+                        submitCategoryNameChange={this.submitCategoryNameChange}
+                        submitNewProduct={this.submitNewProduct}
+                        productsFromCategory={this.state.productsFromCategory}
+                        deleteSelectedProducts={this.deleteSelectedProducts}
+                        isModalVisible={this.state.isModalVisible}
+                />
             </div>
          );
     }
