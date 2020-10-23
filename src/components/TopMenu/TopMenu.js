@@ -13,8 +13,8 @@ const TopMenu = (props) => {
                  className={style[props.redo]} 
                  disabled={props.redo === 0}
                  >Redo</div>
-            <div data-value={1} onClick={props.changeFontSize} style={{fontSize: '24px'}}><span >A</span></div>
-            <div data-value={-1} onClick={props.changeFontSize} style={{fontSize: '12px', lineHeight: '44px'}}><span >A</span></div>
+            <div data-value={1} onClick={props.changeFontSize}>A+</div>
+            <div data-value={-1} onClick={props.changeFontSize}>a-</div>
         </div>
      );
 }
