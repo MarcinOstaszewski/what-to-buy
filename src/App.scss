@@ -10,7 +10,7 @@
   --pieczywo: hsl(40, 45%, 55%);
   --przybory: hsl(230, 45%, 55%);
   --przyprawy: hsl(140, 45%, 55%);
-  --sypkie: hsl(245, 45%, 55%);
+  --sypkie: hsl(240, 45%, 55%);
   --sxodycze: hsl(310, 45%, 55%);
   --uxywki: hsl(350, 45%, 55%);
   --warzywa: hsl(100, 45%, 55%);
@@ -58,33 +58,93 @@ body {
 }
 @include colorClasses();
 
-div.chemia { background-color: var(--chemia); }
-span.chemia { color: var(--chemia); }
-div.pieczywo { background-color: var(--pieczywo); }
-span.pieczywo { color: var(--pieczywo); }
-div.nabiax { background-color: var(--nabiax); }
-span.nabiax { color: var(--nabiax); }
-div.napoje { background-color: var(--napoje); }
-span.napoje { color: var(--napoje); }
-div.uxywki { background-color: var(--uxywki); }
-span.uxywki { color: var(--uxywki); }
-div.sxodycze { background-color: var(--sxodycze); }
-span.sxodycze { color: var(--sxodycze); }
-div.kasze { background-color: var(--kasze); }
-span.kasze { color: var(--kasze); }
-div.sypkie { background-color: var(--sypkie); }
-span.sypkie { color: var(--sypkie); }
-div.przyprawy { background-color: var(--przyprawy); }
-span.przyprawy { color: var(--przyprawy); }
-div.makarony { background-color: var(--makarony); }
-span.makarony { color: var(--makarony); }
-div.mixso_ryby { background-color: var(--mixso_ryby); }
-span.mixso_ryby { color: var(--mixso_ryby); }
-div.owoce { background-color: var(--owoce); }
-span.owoce { color: var(--owoce); }
-div.warzywa { background-color: var(--warzywa); }
-span.warzywa { color: var(--warzywa); }
-div.konserwy { background-color: var(--konserwy); }
-span.konserwy { color: var(--konserwy); }
-div.przybory { background-color: var(--przybory); }
-span.przybory { color: var(--przybory); }
+.product.chemia { background-color: var(--chemia); }
+.categoryName.chemia { 
+  color: var(--chemia); 
+  border-top: 2px solid var(--chemia);
+  border-bottom: 2px solid var(--chemia); 
+}
+.product.pieczywo { background-color: var(--pieczywo); }
+.categoryName.pieczywo { 
+  color: var(--pieczywo); 
+  border-top: 2px solid var(--pieczywo);
+  border-bottom: 2px solid var(--pieczywo); 
+}
+.product.nabiax { background-color: var(--nabiax); }
+.categoryName.nabiax { 
+  color: var(--nabiax); 
+  border-top: 2px solid var(--nabiax);
+  border-bottom: 2px solid var(--nabiax); 
+}
+.product.napoje { background-color: var(--napoje); }
+.categoryName.napoje { 
+  color: var(--napoje); 
+  border-top: 2px solid var(--napoje);
+  border-bottom: 2px solid var(--napoje); 
+}
+.product.uxywki { background-color: var(--uxywki); }
+.categoryName.uxywki { 
+  color: var(--uxywki); 
+  border-top: 2px solid var(--uxywki);
+  border-bottom: 2px solid var(--uxywki); 
+}
+.product.sxodycze { background-color: var(--sxodycze); }
+.categoryName.sxodycze { 
+  color: var(--sxodycze); 
+  border-top: 2px solid var(--sxodycze);
+  border-bottom: 2px solid var(--sxodycze); 
+}
+.product.kasze { background-color: var(--kasze); }
+.categoryName.kasze { 
+  color: var(--kasze); 
+  border-top: 2px solid var(--kasze);
+  border-bottom: 2px solid var(--kasze); 
+}
+.product.sypkie { background-color: var(--sypkie); }
+.categoryName.sypkie { 
+  color: var(--sypkie); 
+  border-top: 2px solid var(--sypkie);
+  border-bottom: 2px solid var(--sypkie); 
+}
+.product.przyprawy { background-color: var(--przyprawy); }
+.categoryName.przyprawy { 
+  color: var(--przyprawy); 
+  border-top: 2px solid var(--przyprawy);
+  border-bottom: 2px solid var(--przyprawy); 
+}
+.product.makarony { background-color: var(--makarony); }
+.categoryName.makarony { 
+  color: var(--makarony); 
+  border-top: 2px solid var(--makarony);
+  border-bottom: 2px solid var(--makarony); 
+}
+.product.mixso_ryby { background-color: var(--mixso_ryby); }
+.categoryName.mixso_ryby { 
+  color: var(--mixso_ryby); 
+  border-top: 2px solid var(--mixso_ryby);
+  border-bottom: 2px solid var(--mixso_ryby); 
+}
+.product.owoce { background-color: var(--owoce); }
+.categoryName.owoce { 
+  color: var(--owoce); 
+  border-top: 2px solid var(--owoce);
+  border-bottom: 2px solid var(--owoce); 
+}
+.product.warzywa { background-color: var(--warzywa); }
+.categoryName.warzywa { 
+  color: var(--warzywa); 
+  border-top: 2px solid var(--warzywa);
+  border-bottom: 2px solid var(--warzywa); 
+}
+.product.konserwy { background-color: var(--konserwy); }
+.categoryName.konserwy { 
+  color: var(--konserwy); 
+  border-top: 2px solid var(--konserwy);
+  border-bottom: 2px solid var(--konserwy); 
+}
+.product.przybory { background-color: var(--przybory); }
+.categoryName.przybory { 
+  color: var(--przybory); 
+  border-top: 2px solid var(--przybory);
+  border-bottom: 2px solid var(--przybory); 
+}
