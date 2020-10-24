@@ -17,9 +17,21 @@ const fbDB = firebase.database()
 
 const googleAuth = new auth.GoogleAuthProvider();
 
-const addProducts = (ref, data) => {
-    fbDB.ref(ref).set(data);
+// const addProducts = (ref, data) => {
+//     fbDB.ref(ref).set(data);
+// }
+
+const updateCategoriesNames = () => {
+    fbDB.ref('categories').once('value').then(sn => {
+        let snVal = sn.val();
+        let categoriesNames = {}
+        Object.keys(snVal).forEach( key => {
+            categoriesNames[key] = 1
+        })
+        fbDB.ref('categoryNames').set(categoriesNames);
+    })
 }
+updateCategoriesNames();
 
 // addProducts('categories', categories);
 
@@ -27,5 +39,5 @@ export {
     fbDB,
     firebase,
     googleAuth,
-    addProducts,
+    // addProducts,
 };
