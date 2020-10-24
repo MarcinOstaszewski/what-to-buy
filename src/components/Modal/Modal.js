@@ -1,12 +1,16 @@
 import React from 'react';
 import InputField from '../../components/InputField/InputField';
-import Toggle from '../../components/Toggle/Toggle';
+// import Toggle from '../../components/Toggle/Toggle';
 
 import style from './Modal.module.css'
 
 const Modal = (props) => {
 
-    const categoryNameColored = <span className={props.removeDiacrits(props.categoryClicked)}>{props.categoryClicked.toUpperCase()}</span>
+    const categoryNameColored = (
+        <span className={["categoryName", props.removeDiacrits(props.categoryClicked)].join(" ")}>
+            {props.categoryClicked.toUpperCase()}
+        </span>
+    )
 
     return ( 
         <div className={[style.backDrop, style[props.isModalVisible]].join(" ")} onClick={props.hideBackDrop}>
@@ -21,12 +25,13 @@ const Modal = (props) => {
                                     width="9"
                                     value={props.newProductName}
                                     onChange={props.handleInputChange} />
-                        <Toggle id="newProductToBuy"
-                                text="Do kupienia"
-                                type="switch"
-                                width="3"
-                                value={props.newProductToBuy}
-                                onChange={props.handleInputChange} />
+                        <InputField id="newProductToBuy"
+                                    text="Kupić?"
+                                    type="switch"
+                                    width="3"
+                                    value={props.newProductToBuy}
+                                    mainClassName='switchContainer'
+                                    onChange={props.handleInputChange} />
                     </div>
                     <InputField id="newProductNameSubmit"
                                 clName="hue-120"
@@ -35,7 +40,7 @@ const Modal = (props) => {
                 </form>
 
                 <form onSubmit={props.deleteSelectedProducts} >
-                    <h4>Zaznacz produkt/y do usunięcia:</h4>
+                    <h4>Usuń produkt/y z kategorii {categoryNameColored}</h4>
                     {props.productsFromCategory}
                     <InputField id="newProductNameSubmit"
                                 type="submit"
