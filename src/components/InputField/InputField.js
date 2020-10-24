@@ -11,24 +11,33 @@ const InputField = (props) => {
     const width = props.width ? props.width : 12;
     const disabled = props.disabled;
 
-    // let invalidClass;
-    // if (props.isValid) {
-    //     invalidClass = props.isValid[props.id];
-    // }
+    let inputElement, switchClass, labelText;
+    if (props.type === "switch") {
+        switchClass = "switch";
+        labelText = "moveHigher";
+        inputElement = (
+            <div >
+                <input id={props.id} value={props.value} type="checkbox" onChange={props.onChange}/>
+                <span className={style.slider}></span>
+            </div>
+        )
+    } else {
+        inputElement = (
+            <input  type={props.type} id={props.id} 
+                value={props.value}
+                onChange={props.onChange}
+                onClick={props.onClick}
+                className={props.clName}
+                name={props.name} disabled={disabled} />
+        )
+    }
     
     return ( 
         <div key={props.key}
             className={[style.formField, "col-"+width, style[props.mainClassName]].join(" ")} >
-            <label>
-                {props.text}
-                <input  type={props.type} id={props.id} 
-                        value={props.value}
-                        onChange={props.onChange}
-                        onClick={props.onClick}
-                        className={props.clName}
-                        // className={style[invalidClass]}
-                        name={props.name} disabled={disabled}
-                />
+            <label className={style[switchClass]}>
+                <div className={style[labelText]}>{props.text}</div>
+                {inputElement}
                 {checkmark}
             </label>
         </div>
