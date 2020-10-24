@@ -1,6 +1,5 @@
 import React, {Component } from 'react';
 import TopMenu from '../../components/TopMenu/TopMenu'
-// import InputField from '../../components/InputField/InputField';
 import Modal from '../../components/Modal/Modal';
 import ProductWithCheckbox from '../../components/ProductWithCheckbox/ProductWithCheckbox';
 import { fbDB } from '../../firebase';
@@ -15,6 +14,7 @@ class ShowList extends Component {
         redo: [],
         newCategoryName: "",
         newProductName: "",
+        newProductToBuy: 1,
         isModalVisible: "",
         categoryClicked: "",
         productsFromCategory: []
@@ -68,8 +68,16 @@ class ShowList extends Component {
         })
     }
     handleInputChange = e => {
-        console.log(e.target.id, e.target.value);
-        this.setState({ [e.target.id]: e.target.value.toUpperCase().replace(/ /g, "_") })
+        console.log(e.target.id, e.target.value, this.state);
+        let newValue = e.target.value;
+        if (e.target.id === "newProductName") { 
+            newValue = newValue.toLowerCase();
+        } else if (e.target.id === "newProductToBuy") {
+            newValue = this.state.newProductToBuy === 1 ? 0 : 1;
+        } else {
+            newValue = newValue.toUpperCase();
+        }
+        this.setState({ [e.target.id]: newValue })
     }
 
     handleCategoryClick = e => {
@@ -77,7 +85,7 @@ class ShowList extends Component {
         let productsFromCategory = [];
         for (const prod in this.state.categories[name].products) {
             productsFromCategory.push(
-                <ProductWithCheckbox key={prod} prod={prod}/>
+                <ProductWithCheckbox key={prod} prod={prod.replace(/_/g, " ")}/>
             )
         }
         this.setState({ 
@@ -97,13 +105,13 @@ class ShowList extends Component {
     toUpperWithoutSpaces = name => name.toUpperCase().replace(/ /g, "_")
     removeDiacrits = str => str.replace(/[ąćęłńóśźż]/ig, 'x');
 
-    categorySpan = (group, i, catName) => {
-        return  <span data-name={catName} 
-                     className={[style.categoryName, this.removeDiacrits(catName)].join(" ")} 
+    category = (group, i, catName) => {
+        return  <div data-name={catName} 
+                     className={["categoryName", style.categoryName, this.removeDiacrits(catName)].join(" ")} 
                      onClick={this.handleCategoryClick}
                      key={group+i}>
                         {catName}
-                </span>
+                </div>
     }
 
     submitCategoryNameChange = e => {
@@ -112,8 +120,10 @@ class ShowList extends Component {
     }
     submitNewProduct = e => {
         e.preventDefault();
+        let categoryProducts = {...this.state.categories[this.state.categoryClicked].products}
+        categoryProducts[this.state.newProductName] = this.state.newProductToBuy;
         console.log(this.state.newProductName);
-        fbDB.ref(`${this.dbRef}/${this.state.categoryClicked}/products/${this.state.newProductName}`).set(1);
+        fbDB.ref(`${this.dbRef}/${this.state.categoryClicked}/products/`).set(categoryProducts.replace(/ /g, "_"));
     }
 
     componentDidMount() { this.updateProductsFromDb(`${this.dbRef}`) }
@@ -127,13 +137,13 @@ class ShowList extends Component {
             let productsTheRest = [];
             Object.keys(catData.products).forEach( (prod, i) => {
                 let product = (
-                    <div className={[style.product, this.removeDiacrits(catName)].join(" ")}
+                    <div className={["product", style.product, this.removeDiacrits(catName)].join(" ")}
                         key={this.removeDiacrits(catName)+i}
                         data-name={prod}
                         data-category={catName}
                         onClick={this.moveProduct}
                         data-value={catData.products[prod]}
-                    >{prod.replace(/_/g, " ")}</div>
+                    >{prod.toLowerCase().replace(/_/g, " ")}</div>
                 );
                 if (catData.products[prod]) {
                     productsToBuy.push(product)
@@ -143,12 +153,12 @@ class ShowList extends Component {
             })
             
             if (productsToBuy.length > 0) {
-                toBuy.push( this.categorySpan(toBuy, i, catName) )
+                toBuy.push( this.category(toBuy, i, catName) )
             }
             toBuy.push( ...productsToBuy )
             
             if (productsTheRest.length > 0) {
-                theRest.push( this.categorySpan(theRest, i, catName))
+                theRest.push( this.category(theRest, i, catName))
             }
             theRest.push( ...productsTheRest )
         })

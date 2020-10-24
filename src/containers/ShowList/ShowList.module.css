@@ -9,12 +9,16 @@
 .list p {
     margin: 5px 0px;
 }
-.list span {
+.list .categoryName {
     display: inline;
     font-weight: bold;
+    margin: 5px 5px 5px 25px;
+    padding: 1px 5px 1px 5px;
+    text-transform: uppercase;
+    cursor: pointer;
 }
-.list span:not(:first-child) {
-    margin-left: 15px
+.list .categoryName:first-of-type {
+    margin-left: 5px;
 }
 .list hr {
     border: 1px solid #000;
@@ -25,15 +29,6 @@
     display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;
-}
-.category span {
-    font-weight: bold;
-    margin: 5px 0px;
-    padding: 2px 5px;
-}
-.categoryName {
-    text-transform: uppercase;
-    cursor: pointer;
 }
 .product {
     margin: 5px;
