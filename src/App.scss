@@ -1,20 +1,3 @@
-:root {
-  --chemia: hsl(290, 45%, 55%);
-  --kasze: hsl(30, 45%, 55%);
-  --konserwy: hsl(200, 45%, 55%);
-  --makarony: hsl(60, 45%, 55%);
-  --mixso_ryby: hsl(360, 45%, 55%);
-  --nabiax: hsl(180, 45%, 55%);
-  --napoje: hsl(190, 45%, 55%);
-  --owoce: hsl(20, 45%, 55%);
-  --pieczywo: hsl(40, 45%, 55%);
-  --przybory: hsl(230, 45%, 55%);
-  --przyprawy: hsl(140, 45%, 55%);
-  --sypkie: hsl(240, 45%, 55%);
-  --sxodycze: hsl(310, 45%, 55%);
-  --uxywki: hsl(350, 45%, 55%);
-  --warzywa: hsl(100, 45%, 55%);
-}
 body {
   background-color: #fff;
 }
@@ -23,12 +6,24 @@ body {
   flex-flow: row wrap;
   width: 100%;
 }
+.colorSwatch {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin: 3px;
+}
+.chosenHue {
+  border: 3px solid #000;
+}
+.mt-5 {
+  margin-top: 25px;
+}
 
 @mixin grid-generator($grid-columns) {
   @for $i from 1 through $grid-columns {
     .col-#{$i} {
       width: percentage($i / $grid-columns);
-      // float: left;
     }
   }
 }
@@ -37,7 +32,7 @@ body {
 @mixin headers-generator() {
   @for $i from 1 through 6 {
     h#{$i} {
-      font-size: 28 - $i * 2px;
+      font-size: 22 - $i * 2px;
       margin-top: 36 - $i *2px;
       margin-bottom: 10px;
     }
@@ -48,103 +43,15 @@ body {
 @mixin colorClasses() {
   @for $i from 0 through 36 {
     input.hue-#{$i*10},
-    div.hue-#{$i*10} {
+    .colorSwatch.hue-#{$i*10},
+    .product.hue-#{$i*10} {
       background-color: hsl($i*10 , 45%, 55%);
     }
-    span.hue-#{$i} {
+    .categoryName.hue-#{$i*10} {
       color: hsl($i*10, 45%, 55%);
+      border-top: 2px solid hsl($i*10, 45%, 55%);
+      border-bottom: 2px solid hsl($i*10, 45%, 55%);
     }
   }
 }
 @include colorClasses();
-
-.product.chemia { background-color: var(--chemia); }
-.categoryName.chemia { 
-  color: var(--chemia); 
-  border-top: 2px solid var(--chemia);
-  border-bottom: 2px solid var(--chemia); 
-}
-.product.pieczywo { background-color: var(--pieczywo); }
-.categoryName.pieczywo { 
-  color: var(--pieczywo); 
-  border-top: 2px solid var(--pieczywo);
-  border-bottom: 2px solid var(--pieczywo); 
-}
-.product.nabiax { background-color: var(--nabiax); }
-.categoryName.nabiax { 
-  color: var(--nabiax); 
-  border-top: 2px solid var(--nabiax);
-  border-bottom: 2px solid var(--nabiax); 
-}
-.product.napoje { background-color: var(--napoje); }
-.categoryName.napoje { 
-  color: var(--napoje); 
-  border-top: 2px solid var(--napoje);
-  border-bottom: 2px solid var(--napoje); 
-}
-.product.uxywki { background-color: var(--uxywki); }
-.categoryName.uxywki { 
-  color: var(--uxywki); 
-  border-top: 2px solid var(--uxywki);
-  border-bottom: 2px solid var(--uxywki); 
-}
-.product.sxodycze { background-color: var(--sxodycze); }
-.categoryName.sxodycze { 
-  color: var(--sxodycze); 
-  border-top: 2px solid var(--sxodycze);
-  border-bottom: 2px solid var(--sxodycze); 
-}
-.product.kasze { background-color: var(--kasze); }
-.categoryName.kasze { 
-  color: var(--kasze); 
-  border-top: 2px solid var(--kasze);
-  border-bottom: 2px solid var(--kasze); 
-}
-.product.sypkie { background-color: var(--sypkie); }
-.categoryName.sypkie { 
-  color: var(--sypkie); 
-  border-top: 2px solid var(--sypkie);
-  border-bottom: 2px solid var(--sypkie); 
-}
-.product.przyprawy { background-color: var(--przyprawy); }
-.categoryName.przyprawy { 
-  color: var(--przyprawy); 
-  border-top: 2px solid var(--przyprawy);
-  border-bottom: 2px solid var(--przyprawy); 
-}
-.product.makarony { background-color: var(--makarony); }
-.categoryName.makarony { 
-  color: var(--makarony); 
-  border-top: 2px solid var(--makarony);
-  border-bottom: 2px solid var(--makarony); 
-}
-.product.mixso_ryby { background-color: var(--mixso_ryby); }
-.categoryName.mixso_ryby { 
-  color: var(--mixso_ryby); 
-  border-top: 2px solid var(--mixso_ryby);
-  border-bottom: 2px solid var(--mixso_ryby); 
-}
-.product.owoce { background-color: var(--owoce); }
-.categoryName.owoce { 
-  color: var(--owoce); 
-  border-top: 2px solid var(--owoce);
-  border-bottom: 2px solid var(--owoce); 
-}
-.product.warzywa { background-color: var(--warzywa); }
-.categoryName.warzywa { 
-  color: var(--warzywa); 
-  border-top: 2px solid var(--warzywa);
-  border-bottom: 2px solid var(--warzywa); 
-}
-.product.konserwy { background-color: var(--konserwy); }
-.categoryName.konserwy { 
-  color: var(--konserwy); 
-  border-top: 2px solid var(--konserwy);
-  border-bottom: 2px solid var(--konserwy); 
-}
-.product.przybory { background-color: var(--przybory); }
-.categoryName.przybory { 
-  color: var(--przybory); 
-  border-top: 2px solid var(--przybory);
-  border-bottom: 2px solid var(--przybory); 
-}
