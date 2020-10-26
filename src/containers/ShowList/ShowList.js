@@ -18,7 +18,8 @@ class ShowList extends Component {
         categoryClicked: "",
         clickedCategoryHue: "",
         newCategoryHue: "",
-        productsToDelete: {}
+        tabToShow: "show_addProduct",
+        productsToDelete: {},
     }
 
     dbRef = 'categories'
@@ -168,9 +169,9 @@ class ShowList extends Component {
         fbDB.ref(`${this.dbRef}/${this.state.categoryClicked}/products/`).set(allProducts);
     }
 
-    colorSwatchClicked = e => {
-        console.log(e.target.id)
-        this.setState({ newCategoryHue: e.target.id})
+    tabClicked = e => {
+        console.log(e.currentTarget.id);
+        this.setState({ tabToShow: e.currentTarget.id });
     }
 
     componentDidMount() { this.updateProductsFromDb(`${this.dbRef}`) }
@@ -232,7 +233,6 @@ class ShowList extends Component {
                         newCategoryName={this.state.newCategoryName}
                         newProductName={this.state.newProductName}
                         hideBackDrop={this.hideBackDrop}
-                        removeDiacrits={this.removeDiacrits}
                         handleInputChange={this.handleInputChange}
                         submitCategoryChange={this.submitCategoryChange}
                         submitNewProduct={this.submitNewProduct}
@@ -243,6 +243,8 @@ class ShowList extends Component {
                         clickedCategoryHue={this.state.clickedCategoryHue}
                         newCategoryHue={this.state.newCategoryHue}
                         checkProductToDelete={this.checkProductToDelete}
+                        tabClicked={this.tabClicked}
+                        tabToShow={this.state.tabToShow}
                 />
             </div>
          );
