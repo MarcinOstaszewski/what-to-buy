@@ -6,7 +6,7 @@ const categories = {
             "bułki": 0,
             "ciasto": 0,
             "razowy": 0,
-            "pełny_przemiał": 0,
+            "pełny przemiał": 0,
             "czosnkowe": 0,
         },
     },
@@ -20,20 +20,20 @@ const categories = {
             "kefir": 0,
             "jogurt": 0,
             "jajka": 0,
-            "ser_biały": 0,
-            "ser_żółty": 0,
+            "ser biały": 0,
+            "ser żółty": 0,
         }
     },
     "napoje": {
         "hue": 190,
         "products": {
-            "woda_gazowana": 0,
-            "woda_niegazowana": 0,
-            "sok_jabłkowy": 0,
-            "sok_pomarańczowy": 0,
-            "sok_pomidorowy": 0,
-            "sok_warzywny": 0,
-            "sok_inny": 0,
+            "woda gazowana": 0,
+            "woda niegazowana": 0,
+            "sok jabłkowy": 0,
+            "sok pomarańczowy": 0,
+            "sok pomidorowy": 0,
+            "sok warzywny": 0,
+            "sok inny": 0,
             "tonik": 0,
             "sprite": 0,
             "cola": 0,
@@ -62,9 +62,9 @@ const categories = {
             "gryczana": 0,
             "jaglana": 0,
             "mazurska": 0,
-            "ryż_biały": 0,
-            "ryż_brązowy": 0,
-            "kasza_manna": 0,
+            "ryż biały": 0,
+            "ryż brązowy": 0,
+            "kasza manna": 0,
             "pęczak": 0,
         }
     },
@@ -74,7 +74,7 @@ const categories = {
             "mąka": 0,
             "cukier": 0,
             "sól": 0,
-            "mąka_razowa": 0,
+            "mąka razowa": 0,
         }
     },
     "przyprawy": {
@@ -82,14 +82,14 @@ const categories = {
         "products": {
             "pieprz": 0,
             "oregano": 0,
-            "ziele_angielskie": 0,
-            "liść_laurowy": 0,
+            "ziele angielskie": 0,
+            "liść laurowy": 0,
             "gyros": 0,
             "curry": 0,
             "czosnek": 0,
             "imbir": 0,
-            "papryka_słodka": 0,
-            "papryka_ostra": 0,
+            "papryka słodka": 0,
+            "papryka ostra": 0,
             "ketchup": 0,
             "chrzan": 0,
             "musztarda": 0,
@@ -107,7 +107,7 @@ const categories = {
             "lasagne": 0,
         }
     },
-    "mięso_ryby": {
+    "mięso ryby": {
         "hue": 360,
         "products": {
             "makrela": 0,
@@ -164,8 +164,8 @@ const categories = {
             "ciecierzyca": 0,
             "kapary": 0,
             "mieszanka": 0,
-            "fasola_czerwona": 0,
-            "fasola_biała": 0,
+            "fasola czerwona": 0,
+            "fasola biała": 0,
         }
     },
     "chemia": {
@@ -173,21 +173,21 @@ const categories = {
         "products": {
             "dezodorant": 0,  
             "szampon": 0,  
-            "mydło_w_płynie": 0,  
-            "płyn_do_zmywania": 0,  
-            "mleczko_do_czyszczenia": 0,  
-            "pasta_do_zębów": 0,  
-            "proszek_do_prania": 0,  
-            "płyn_do_prania": 0,  
-            "płyn_do_płukania": 0,  
+            "mydło w płynie": 0,  
+            "płyn do zmywania": 0,  
+            "mleczko do czyszczenia": 0,  
+            "pasta do zębów": 0,  
+            "proszek do prania": 0,  
+            "płyn do prania": 0,  
+            "płyn do płukania": 0,  
         }
     },
     "przybory": {
         "hue": 230,
         "products": {
-            "papier_śniadaniowy": 0, 
-            "papier_do_pieczenia": 0,
-            "filtry_do_kawy": 0,
+            "papier śniadaniowy": 0, 
+            "papier do pieczenia": 0,
+            "filtry do kawy": 0,
         }
     },
     "leki": {
