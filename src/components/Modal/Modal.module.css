@@ -30,6 +30,98 @@
     transition-duration: .5s;
     left: 0px;
 }
+
+/* TABS  */
+.tab {
+    position: relative;
+    box-sizing: border-box;
+    height: 40px;
+    width: 50px;
+    /* margin: 0px 5px; */
+    border: 1px solid #999;
+    border-bottom: 0px;
+    border-radius: 6px 6px 0px 0px;
+}
+.tab.addProduct div {
+    width: 4px;
+    height: 24px;
+    background-color: #000;
+    position: absolute;
+    top: 8px;
+    left: 22px;
+}
+.tab.addProduct div::after {
+    position: absolute;
+    content: "";
+    width: 24px;
+    height: 4px;
+    background-color: #000;
+    top: 11px;
+    left: -10px;
+}
+.tab.deleteProducts div {
+    position: absolute;
+    width: 24px;
+    height: 4px;
+    background-color: #000;
+    top: 18px;
+    left: 11px;
+}
+.tab.editCategory div {
+    width: 9px;
+    height: 18px;
+    background-color: #000;
+    position: absolute;
+    top: 11px;
+    left: 20px;
+}
+.tab.editCategory div::before {
+    position: absolute;
+    content: "";
+    width: 9px;
+    height: 5px;
+    background-color: #000;
+    position: absolute;
+    top: -6px;
+    left: 0px;
+}
+.tab.editCategory div::after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 4.5px 0 4.5px;
+    border-color: #000 transparent transparent transparent;
+    bottom: -7px;
+}
+.tab.addProduct.show_addProduct,
+.tab.deleteProducts.show_deleteProducts,
+.tab.editCategory.show_editCategory {
+    border: 2px solid #000;
+    border-bottom: 0px;
+}
+.afterTab {
+    width: 20px;
+    border-bottom: 1px solid #999;
+}
+.afterTab.addProduct.show_addProduct,
+.afterTab.deleteProducts.show_deleteProducts,
+.afterTab.editCategory.show_editCategory {
+    border-bottom: 2px solid #000;
+}
+/* END TABS */
+
+form {
+    display: none;
+}
+
+form.addProduct.show_addProduct,
+form.deleteProducts.show_deleteProducts,
+form.editCategory.show_editCategory {
+    display: block;
+}
+
 .newCategoryName {
     padding: 5px;
     outline: none;

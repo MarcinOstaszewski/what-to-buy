@@ -7,7 +7,7 @@ import style from './Modal.module.css'
 const Modal = (props) => {
 
     const categoryNameColored = (
-        <span className={["categoryName", props.clickedCategoryHue, props.removeDiacrits(props.categoryClicked)].join(" ")}>
+        <span className={["categoryName", props.clickedCategoryHue].join(" ")}>
             {props.categoryClicked.toUpperCase()}
         </span>
     )
@@ -35,9 +35,27 @@ const Modal = (props) => {
     return ( 
         <div className={[style.backDrop, style[props.isModalVisible]].join(" ")} onClick={props.hideBackDrop}>
             <div className={[style.modalWindow, style[props.isModalVisible]].join(" ")}>
+                <div className="row">
+                    <div className={[style.afterTab, style.addProduct, style[props.tabToShow]].join(" ")}></div> 
+                    <div className={[style.tab, style.addProduct, style[props.tabToShow]].join(" ")} 
+                         id="show_addProduct" 
+                         onClick={props.tabClicked}><div></div>
+                    </div>
+                    <div className={[style.afterTab, style.addProduct, style.deleteProducts, style[props.tabToShow]].join(" ")}></div> 
+                    <div className={[style.tab, style.deleteProducts, style[props.tabToShow]].join(" ")} 
+                         id="show_deleteProducts" 
+                         onClick={props.tabClicked}><div></div>
+                    </div>
+                    <div className={[style.afterTab, style.deleteProducts, style.editCategory, style[props.tabToShow]].join(" ")}></div> 
+                    <div className={[style.tab, style.editCategory, style[props.tabToShow]].join(" ")} 
+                         id="show_editCategory" 
+                         onClick={props.tabClicked}><div></div>
+                    </div>
+                    <div className={[style.afterTab, style.editCategory, style[props.tabToShow]].join(" ")}></div> 
+                </div>
                 <div className={style.hideBackDrop} onClick={props.hideBackDrop}></div>
 
-                <form onSubmit={props.submitNewProduct} >
+                <form onSubmit={props.submitNewProduct} className={[style.addProduct, style[props.tabToShow]].join(" ")}>
                     <h4>Dodaj produkt do kategorii {categoryNameColored}</h4>
                     <div className="row">
                         <InputField id="newProductName"
@@ -58,7 +76,7 @@ const Modal = (props) => {
                                 value="Dodaj produkt"/>
                 </form>
 
-                <form onSubmit={props.deleteSelectedProducts} >
+                <form onSubmit={props.deleteSelectedProducts} className={[style.deleteProducts, style[props.tabToShow]].join(" ")}>
                     <h4>Usuń produkt/y z kategorii {categoryNameColored}</h4>
                     {productsToDelete}
                     <InputField id="deleteProductFromCategory"
@@ -67,7 +85,7 @@ const Modal = (props) => {
                                 value="Usuń zaznaczone produkty"/>
                 </form>
 
-                <form onSubmit={props.submitCategoryChange} >
+                <form onSubmit={props.submitCategoryChange} className={[style.editCategory, style[props.tabToShow]].join(" ")}>
                     <h4>Edytuj kategorię {categoryNameColored}</h4>
                     <InputField id="newCategoryName"
                                 text="Nowa nazwa kategorii"
@@ -80,6 +98,7 @@ const Modal = (props) => {
                                 clName="hue-30"
                                 value="Zmień nazwę i / lub kolor kategorii" />
                 </form>
+
             </div>
         </div>
     );                
