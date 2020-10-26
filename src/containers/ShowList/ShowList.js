@@ -1,7 +1,6 @@
 import React, {Component } from 'react';
 import TopMenu from '../../components/TopMenu/TopMenu'
 import Modal from '../../components/Modal/Modal';
-import ProductWithCheckbox from '../../components/ProductWithCheckbox/ProductWithCheckbox';
 import { fbDB } from '../../firebase';
 
 import style from './ShowList.module.css';
@@ -14,10 +13,12 @@ class ShowList extends Component {
         redo: [],
         newCategoryName: "",
         newProductName: "",
-        newProductToBuy: 1,
+        newProductToBuy: 0,
         isModalVisible: "",
         categoryClicked: "",
-        productsFromCategory: []
+        clickedCategoryHue: "",
+        newCategoryHue: "",
+        productsToDelete: {}
     }
 
     dbRef = 'categories'
@@ -56,19 +57,27 @@ class ShowList extends Component {
         fbDB.ref(`${this.dbRef}/${category}/products/${name}`).set(reverseValue);
         let currentUndo = [...this.state.undo];
         currentUndo.push({name: name, category: category, value: parseInt(e.target.dataset.value)})
-        this.setState({ undo: currentUndo})
+        this.setState({ undo: currentUndo}) 
     }
 
     updateProductsFromDb = ref => {
         fbDB.ref(ref).on('value', snap => {
-            const snapValue = snap.val()
+            const snapValue = snap.val();
+            // for (const cat in snapValue) {
+            //     const reference = `${ref}/${cat}`
+            //     fbDB.ref(reference).on("value", snap => {
+            //         let allCategories = {...this.state.categories};
+            //         allCategories[cat] = snap.val();
+            //         this.setState({ categories: allCategories })
+            //     })
+            // }
             this.setState({ [ref]: snapValue })
         }, function (err) {
-            console.log(err.code, err)
+            console.log(err.code, err);
         })
+
     }
     handleInputChange = e => {
-        console.log(e.target.id, e.target.value, this.state);
         let newValue = e.target.value;
         if (e.target.id === "newProductName") { 
             newValue = newValue.toLowerCase();
@@ -80,19 +89,28 @@ class ShowList extends Component {
         this.setState({ [e.target.id]: newValue })
     }
 
+    checkProductToDelete = e => {
+        console.log(e.target, e.target.id, {...this.state.productsToDelete}[e.target.id]);
+        let newProductsToDelete = {...this.state.productsToDelete};
+        newProductsToDelete[e.target.id] = !{...this.state.productsToDelete}[e.target.id]
+        this.setState({
+            productsToDelete: newProductsToDelete
+        })
+    }
+
     handleCategoryClick = e => {
         const name = e.target.dataset.name;
-        let productsFromCategory = [];
+        let productsToDelete = {};
         for (const prod in this.state.categories[name].products) {
-            productsFromCategory.push(
-                <ProductWithCheckbox key={prod} prod={prod.replace(/_/g, " ")}/>
-            )
+            productsToDelete[prod] = false;
         }
         this.setState({ 
-            productsFromCategory: productsFromCategory,
+            productsToDelete: productsToDelete,
             isModalVisible: "visible",
             categoryClicked: name,
-            newCategoryName: this.toUpperWithoutSpaces(name)
+            clickedCategoryHue: e.target.dataset.hue,
+            newCategoryHue: e.target.dataset.hue,
+            newCategoryName: name.toUpperCase()
         })
     }
 
@@ -102,28 +120,57 @@ class ShowList extends Component {
         }
     }
 
-    toUpperWithoutSpaces = name => name.toUpperCase().replace(/ /g, "_")
     removeDiacrits = str => str.replace(/[ąćęłńóśźż]/ig, 'x');
 
-    category = (group, i, catName) => {
+    categoryElement = (group, i, catName, hue) => {
         return  <div data-name={catName} 
-                     className={["categoryName", style.categoryName, this.removeDiacrits(catName)].join(" ")} 
+                     className={["categoryName", hue, style.categoryName, this.removeDiacrits(catName)].join(" ")} 
                      onClick={this.handleCategoryClick}
+                     data-hue={hue}
                      key={group+i}>
                         {catName}
                 </div>
     }
 
-    submitCategoryNameChange = e => {
+    submitCategoryChange = e => {
         e.preventDefault();
-        console.log(e.target);
+        let allCategories = {...this.state.categories};
+        let categoryData = {...allCategories[this.state.categoryClicked]};
+        delete allCategories[this.state.categoryClicked];
+        let newName = this.state.newCategoryName.toLowerCase()
+        allCategories[newName] = categoryData;
+        allCategories[newName].hue = parseInt(this.state.newCategoryHue.slice(4));
+        console.log(allCategories[newName].hue, this.state.newCategoryHue.slice(4) );
+        this.setState({ isModalVisible: false });
+        fbDB.ref(`${this.dbRef}/`).set(allCategories);
     }
     submitNewProduct = e => {
         e.preventDefault();
         let categoryProducts = {...this.state.categories[this.state.categoryClicked].products}
         categoryProducts[this.state.newProductName] = this.state.newProductToBuy;
         console.log(this.state.newProductName);
-        fbDB.ref(`${this.dbRef}/${this.state.categoryClicked}/products/`).set(categoryProducts.replace(/ /g, "_"));
+        fbDB.ref(`${this.dbRef}/${this.state.categoryClicked}/products/`).set(categoryProducts);
+        
+        // MRUGNIĘCIE albo MODAL na 1s - POTWIERDZENIE DODANIA PRODUKTU DO LISTY
+    }
+
+    deleteSelectedProducts = e => {
+        e.preventDefault();
+        let allCategories = {...this.state.categories};
+        let allProducts = {...allCategories[this.state.categoryClicked].products};
+        console.log(allProducts, this.state.productsToDelete)
+        for (const prod in allProducts) {
+            if (this.state.productsToDelete[prod]) {
+                delete allProducts[prod];
+            }
+        }
+        this.setState({ isModalVisible: false })
+        fbDB.ref(`${this.dbRef}/${this.state.categoryClicked}/products/`).set(allProducts);
+    }
+
+    colorSwatchClicked = e => {
+        console.log(e.target.id)
+        this.setState({ newCategoryHue: e.target.id})
     }
 
     componentDidMount() { this.updateProductsFromDb(`${this.dbRef}`) }
@@ -131,19 +178,20 @@ class ShowList extends Component {
     render() { 
         let toBuy = []
         let theRest = [];
-        Object.keys(this.state.categories).forEach( (catName, i) => {
+        Object.keys(this.state.categories).forEach( (catName, ind) => {
             const catData = this.state.categories[catName];
+            const hue = "hue-"+catData.hue;
             let productsToBuy = [];
             let productsTheRest = [];
-            Object.keys(catData.products).forEach( (prod, i) => {
+            Object.keys(catData.products).forEach( (prod, index) => {
                 let product = (
-                    <div className={["product", style.product, this.removeDiacrits(catName)].join(" ")}
-                        key={this.removeDiacrits(catName)+i}
+                    <div className={["product", hue, style.product].join(" ")}
+                        key={this.removeDiacrits(catName)+index}
                         data-name={prod}
                         data-category={catName}
                         onClick={this.moveProduct}
                         data-value={catData.products[prod]}
-                    >{prod.toLowerCase().replace(/_/g, " ")}</div>
+                    >{prod.toLowerCase()}</div>
                 );
                 if (catData.products[prod]) {
                     productsToBuy.push(product)
@@ -153,15 +201,16 @@ class ShowList extends Component {
             })
             
             if (productsToBuy.length > 0) {
-                toBuy.push( this.category(toBuy, i, catName) )
+                toBuy.push( this.categoryElement(toBuy, ind, catName, hue) )
             }
             toBuy.push( ...productsToBuy )
             
             if (productsTheRest.length > 0) {
-                theRest.push( this.category(theRest, i, catName))
+                theRest.push( this.categoryElement(theRest, ind, catName, hue))
             }
             theRest.push( ...productsTheRest )
         })
+        console.log(this.state)
 
         return ( 
             <div className={style.list} style={{fontSize: this.state.fontSize}}>
@@ -185,11 +234,15 @@ class ShowList extends Component {
                         hideBackDrop={this.hideBackDrop}
                         removeDiacrits={this.removeDiacrits}
                         handleInputChange={this.handleInputChange}
-                        submitCategoryNameChange={this.submitCategoryNameChange}
+                        submitCategoryChange={this.submitCategoryChange}
                         submitNewProduct={this.submitNewProduct}
-                        productsFromCategory={this.state.productsFromCategory}
+                        productsToDelete={this.state.productsToDelete}
                         deleteSelectedProducts={this.deleteSelectedProducts}
                         isModalVisible={this.state.isModalVisible}
+                        colorSwatchClicked={this.colorSwatchClicked}
+                        clickedCategoryHue={this.state.clickedCategoryHue}
+                        newCategoryHue={this.state.newCategoryHue}
+                        checkProductToDelete={this.checkProductToDelete}
                 />
             </div>
          );

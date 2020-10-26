@@ -15,15 +15,16 @@
 .modalWindow {
     box-sizing: border-box;
     position: absolute;
+    font-size: 16px;
     top: 0px;
-    left: -500px;
-    width: 500px;
+    left: -350px;
+    width: 350px;
     height: 100%;
     background-color: #fff;
     text-align: left;
     padding: 20px 0px 20px 20px;
     transition-duration: .5s;
-    overflow: scroll;
+    overflow: auto;
 }
 .modalWindow.visible {
     transition-duration: .5s;

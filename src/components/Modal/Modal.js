@@ -1,16 +1,36 @@
 import React from 'react';
 import InputField from '../../components/InputField/InputField';
-// import Toggle from '../../components/Toggle/Toggle';
+import ProductWithCheckbox from '../../components/ProductWithCheckbox/ProductWithCheckbox';
 
 import style from './Modal.module.css'
 
 const Modal = (props) => {
 
     const categoryNameColored = (
-        <span className={["categoryName", props.removeDiacrits(props.categoryClicked)].join(" ")}>
+        <span className={["categoryName", props.clickedCategoryHue, props.removeDiacrits(props.categoryClicked)].join(" ")}>
             {props.categoryClicked.toUpperCase()}
         </span>
     )
+
+    let productsToDelete = [];
+    for (const prod in props.productsToDelete ) {
+        productsToDelete.push(
+            <ProductWithCheckbox key={prod} prod={prod} checked={props.productsToDelete[prod]}
+                checkProductToDelete={props.checkProductToDelete}
+            />
+        )
+    }
+    let colorSwatches = [];
+    for (let i = 0; i <= 36; i++) {
+        let hueClass = `hue-${i*10}`;
+        let isChosenHue = (hueClass === props.newCategoryHue) ? 'chosenHue' : '';
+        colorSwatches.push(
+            <div className={["colorSwatch", hueClass, isChosenHue].join(" ")}
+                 id={hueClass} key={hueClass}
+                 onClick={props.colorSwatchClicked}
+            ></div>
+        )
+    }
 
     return ( 
         <div className={[style.backDrop, style[props.isModalVisible]].join(" ")} onClick={props.hideBackDrop}>
@@ -29,7 +49,6 @@ const Modal = (props) => {
                                     text="Kupić?"
                                     type="switch"
                                     width="3"
-                                    value={props.newProductToBuy}
                                     mainClassName='switchContainer'
                                     onChange={props.handleInputChange} />
                     </div>
@@ -41,30 +60,25 @@ const Modal = (props) => {
 
                 <form onSubmit={props.deleteSelectedProducts} >
                     <h4>Usuń produkt/y z kategorii {categoryNameColored}</h4>
-                    {props.productsFromCategory}
-                    <InputField id="newProductNameSubmit"
+                    {productsToDelete}
+                    <InputField id="deleteProductFromCategory"
                                 type="submit"
                                 clName="hue-0"
-                                value="Usuń zaznaczone produkty"
-                                onSubmit={props.submitCategoryNameChange}/>
+                                value="Usuń zaznaczone produkty"/>
                 </form>
 
-                <form onSubmit={props.submitCategoryNameChange} >
-                    <h2>Edytuj kategorię {categoryNameColored}</h2>
+                <form onSubmit={props.submitCategoryChange} >
+                    <h4>Edytuj kategorię {categoryNameColored}</h4>
                     <InputField id="newCategoryName"
                                 text="Nowa nazwa kategorii"
                                 value={props.newCategoryName}
                                 onChange={props.handleInputChange} />
 
+                    <div className="row mt-5">{colorSwatches}</div>
                     <InputField id="newCategoryNameSubmit"
                                 type="submit"
                                 clName="hue-30"
-                                value="Zmień nazwę kategorii" />
-                    <p>WYŚWIETLIĆ KOLOROWE KWADRACIKI do zaznaczenia</p>
-                    <InputField id="newCategoryColorSubmit"
-                                type="submit"
-                                clName="hue-300"
-                                value="Zmień kolor kategorii" />
+                                value="Zmień nazwę i / lub kolor kategorii" />
                 </form>
             </div>
         </div>
@@ -72,5 +86,3 @@ const Modal = (props) => {
 }
  
 export default Modal;
-
-            

@@ -1,10 +1,10 @@
 .checkboxContainer {
     display: block;
     position: relative;
-    padding-left: 50px;
-    margin-bottom: 12px;
+    padding-left: 30px;
+    margin-bottom: 4px;
     cursor: pointer;
-    font-size: 22px;
+    line-height: 24px;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -22,8 +22,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    height: 25px;
-    width: 25px;
+    height: 22px;
+    width: 22px;
     background-color: #ddd;
 }
 .checkboxContainer:hover input~.checkmark {
@@ -43,8 +43,8 @@
     display: block;
 }
 .checkboxContainer .checkmark:after {
-    left: 9px;
-    top: 5px;
+    left: 7px;
+    top: 4px;
     width: 5px;
     height: 10px;
     border: solid white;
@@ -54,6 +54,7 @@
     transform: rotate(45deg);
 }
 label.checkboxContainer span.prodName {
+    font-size: 14px;
     font-weight: bold;
     margin-left: 5px;
     margin-right: 15px;
