@@ -7,30 +7,27 @@
 }
 .formField input {
     display: block;
-    width: calc(100% - 45px);
+    width: calc(100% - 25px);
+    font-size: 14px;
     margin-top: 2px;
-}
-.formField label {
-    line-height: 13px;
-    font-size: 10px;
-    display: block;
-    margin: 10px 0px 0px 0px;
-    transition: .4s;
-}
-.formField label:focus-within {
-    line-height: 13px;
-    font-size: 13px;
-    transition: .4s;
-}
-.formField input {
     line-height: 24px;
-    font-size: 18px;
     border: 0px;
     border-bottom: 1px solid #bbb;
 }
+.formField label {
+    line-height: 12px;
+    font-size: 10px;
+    display: block;
+    margin: 5px 0px 0px 0px;
+    transition: .4s;
+}
+.formField label:focus-within {
+    line-height: 12px;
+    font-size: 12px;
+    transition: .4s;
+}
 .formField label input[type="submit"] {
     margin-top: 6px;
-    background-color: #ddd;
     cursor: pointer;
 }
 
