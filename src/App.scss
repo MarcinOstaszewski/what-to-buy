@@ -1,5 +1,5 @@
 body {
-  background-color: #fff;
+  background-color: #fcfcfc;
 }
 .row {
   display: flex;
@@ -33,7 +33,7 @@ body {
   @for $i from 1 through 6 {
     h#{$i} {
       font-size: 22 - $i * 2px;
-      margin-top: 36 - $i *2px;
+      margin-top: 44 - $i *2px;
       margin-bottom: 10px;
     }
   }
@@ -45,12 +45,12 @@ body {
     input.hue-#{$i*10},
     .colorSwatch.hue-#{$i*10},
     .product.hue-#{$i*10} {
-      background-color: hsl($i*10 , 45%, 55%);
+      background-color: hsl($i*10 , 55%, 50%);
     }
     .categoryName.hue-#{$i*10} {
-      color: hsl($i*10, 45%, 55%);
-      border-top: 2px solid hsl($i*10, 45%, 55%);
-      border-bottom: 2px solid hsl($i*10, 45%, 55%);
+      color: hsl($i*10, 55%, 50%);
+      border-top: 2px solid hsl($i*10, 55%, 50%);
+      border-bottom: 2px solid hsl($i*10, 55%, 50%);
     }
   }
 }
