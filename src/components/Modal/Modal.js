@@ -55,8 +55,10 @@ const Modal = (props) => {
                 </div>
                 <div className={style.hideBackDrop} onClick={props.hideBackDrop}></div>
 
+
+                <h3>Kategoria {categoryNameColored}</h3>
                 <form onSubmit={props.submitNewProduct} className={[style.addProduct, style[props.tabToShow]].join(" ")}>
-                    <h4>Dodaj produkt do kategorii {categoryNameColored}</h4>
+                    <h4>Dodaj nowy produkt</h4>
                     <div className="row">
                         <InputField id="newProductName"
                                     text="Podaj nazwę produktu"
@@ -77,7 +79,7 @@ const Modal = (props) => {
                 </form>
 
                 <form onSubmit={props.deleteSelectedProducts} className={[style.deleteProducts, style[props.tabToShow]].join(" ")}>
-                    <h4>Usuń produkt/y z kategorii {categoryNameColored}</h4>
+                    <h4>Usuń produkt/y</h4>
                     {productsToDelete}
                     <InputField id="deleteProductFromCategory"
                                 type="submit"
@@ -86,13 +88,13 @@ const Modal = (props) => {
                 </form>
 
                 <form onSubmit={props.submitCategoryChange} className={[style.editCategory, style[props.tabToShow]].join(" ")}>
-                    <h4>Edytuj kategorię {categoryNameColored}</h4>
+                    <h4>Edytuj nazwę i kolor</h4>
                     <InputField id="newCategoryName"
                                 text="Nowa nazwa kategorii"
                                 value={props.newCategoryName}
                                 onChange={props.handleInputChange} />
 
-                    <div className="row mt-5">{colorSwatches}</div>
+                    <div className={[style.colorSwatchesRow].join(" ")}>{colorSwatches}</div>
                     <InputField id="newCategoryNameSubmit"
                                 type="submit"
                                 clName="hue-30"

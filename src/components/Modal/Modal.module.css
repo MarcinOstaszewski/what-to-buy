@@ -149,3 +149,9 @@ form.editCategory.show_editCategory {
 .hideBackDrop::after {
     transform: rotate(-45deg);
 }
+
+.colorSwatchesRow {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 25px 25px 25px 0px;
+}

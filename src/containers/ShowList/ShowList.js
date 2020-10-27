@@ -174,6 +174,10 @@ class ShowList extends Component {
         this.setState({ tabToShow: e.currentTarget.id });
     }
 
+    colorSwatchClicked = e => {
+        this.setState({ newCategoryHue: e.target.id })
+    }
+
     componentDidMount() { this.updateProductsFromDb(`${this.dbRef}`) }
 
     render() { 
