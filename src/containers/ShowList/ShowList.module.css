@@ -43,7 +43,27 @@
     align-items: center;
     flex-wrap: wrap;
 }
-
+.addNewCategoryRow {
+    display: flex;
+    justify-content: flex-end;
+    width: 98%;
+}
+.addNewCategory {
+    display: block;
+    margin: 15px 0px;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px 20px 10px 20px;
+    border-radius: 5px;
+    background-color: #3a3;
+    line-height: 18px;
+    color: #fff;
+    cursor: pointer;
+}
+.addNewCategory span {
+    font-size: 24px;
+    line-height: 18px;
+}
 @media only screen and (max-width: 960px) {
     body {
         font-size: 14px;

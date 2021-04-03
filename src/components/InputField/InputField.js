@@ -27,7 +27,7 @@ const InputField = (props) => {
                 value={props.value}
                 onChange={props.onChange}
                 onClick={props.onClick}
-                className={props.clName}
+                className={[props.clName, style[props.isInvalid]].join(" ")}
                 name={props.name} disabled={disabled} />
         )
     }

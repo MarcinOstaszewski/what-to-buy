@@ -12,6 +12,9 @@ class ShowList extends Component {
         undo: [],
         redo: [],
         newCategoryName: "",
+        addNewCategory: "",
+        categoryNameError: {},
+        allFieldsValid: true,
         newProductName: "",
         newProductToBuy: 0,
         isModalVisible: "",
@@ -20,12 +23,12 @@ class ShowList extends Component {
         newCategoryHue: "",
         tabToShow: "show_addProduct",
         productsToDelete: {},
+        addNewCategoryVisible: "showTabs"
     }
 
     dbRef = 'categories'
 
     changeFontSize = (e) => {
-        console.log(parseInt(e.target.dataset));
         this.setState({fontSize: parseInt(this.state.fontSize) + parseInt(e.target.dataset.value)});
     }
     funcUndoRedo = (e) => {
@@ -44,7 +47,6 @@ class ShowList extends Component {
             newUndo.push(r);
             fbDB.ref(`${this.dbRef}/${r.category}/products/${r.name}`).set(r.value);
         }
-        console.log(u, r, newUndo, newRedo)
         this.setState({
             undo: newUndo,
             redo: newRedo
@@ -58,20 +60,12 @@ class ShowList extends Component {
         fbDB.ref(`${this.dbRef}/${category}/products/${name}`).set(reverseValue);
         let currentUndo = [...this.state.undo];
         currentUndo.push({name: name, category: category, value: parseInt(e.target.dataset.value)})
-        this.setState({ undo: currentUndo}) 
+        this.setState({ undo: currentUndo, redo: [] }) 
     }
 
     updateProductsFromDb = ref => {
         fbDB.ref(ref).on('value', snap => {
             const snapValue = snap.val();
-            // for (const cat in snapValue) {
-            //     const reference = `${ref}/${cat}`
-            //     fbDB.ref(reference).on("value", snap => {
-            //         let allCategories = {...this.state.categories};
-            //         allCategories[cat] = snap.val();
-            //         this.setState({ categories: allCategories })
-            //     })
-            // }
             this.setState({ [ref]: snapValue })
         }, function (err) {
             console.log(err.code, err);
@@ -80,18 +74,38 @@ class ShowList extends Component {
     }
     handleInputChange = e => {
         let newValue = e.target.value;
-        if (e.target.id === "newProductName") { 
+        let categoryNameError = {...this.state.categoryNameError};
+        if (e.target.id === "newProductName") {
             newValue = newValue.toLowerCase();
+            categoryNameError.newProductName = ""; 
+            if (newValue === "") categoryNameError.newProductName = "invalid";
+            if (this.state.categoryClicked) {
+                for (const productName in this.state.categories[this.state.categoryClicked].products) {
+                    if (newValue === productName) { 
+                        categoryNameError.newProductName = "invalid";
+                    }
+                } 
+            }
         } else if (e.target.id === "newProductToBuy") {
             newValue = this.state.newProductToBuy === 1 ? 0 : 1;
+        } else if (e.target.id === "addNewCategory" || e.target.id === "newCategoryName") {
+            newValue = newValue.toUpperCase();
+            categoryNameError.addNewCategory = "";
+            for (const categoryName in this.state.categories) {
+                if (categoryName.toUpperCase() === newValue) {
+                    categoryNameError.addNewCategory = "invalid";
+                }
+            }
         } else {
             newValue = newValue.toUpperCase();
         }
-        this.setState({ [e.target.id]: newValue })
+        this.setState({ 
+            [e.target.id]: newValue,
+            categoryNameError: categoryNameError
+        })
     }
 
     checkProductToDelete = e => {
-        console.log(e.target, e.target.id, {...this.state.productsToDelete}[e.target.id]);
         let newProductsToDelete = {...this.state.productsToDelete};
         newProductsToDelete[e.target.id] = !{...this.state.productsToDelete}[e.target.id]
         this.setState({
@@ -108,10 +122,11 @@ class ShowList extends Component {
         this.setState({ 
             productsToDelete: productsToDelete,
             isModalVisible: "visible",
+            addNewCategoryVisible: "showTabs",
             categoryClicked: name,
             clickedCategoryHue: e.target.dataset.hue,
             newCategoryHue: e.target.dataset.hue,
-            newCategoryName: name.toUpperCase()
+            newCategoryName: name
         })
     }
 
@@ -141,15 +156,32 @@ class ShowList extends Component {
         let newName = this.state.newCategoryName.toLowerCase()
         allCategories[newName] = categoryData;
         allCategories[newName].hue = parseInt(this.state.newCategoryHue.slice(4));
-        console.log(allCategories[newName].hue, this.state.newCategoryHue.slice(4) );
-        this.setState({ isModalVisible: false });
+        this.setState({ isModalVisible: false, categoryClicked: "" });
         fbDB.ref(`${this.dbRef}/`).set(allCategories);
+    }
+    submitNewCategoryToDB = e => {
+        e.preventDefault();
+        let {addNewCategory, newCategoryHue, newProductName} = this.state;
+        if (addNewCategory && addNewCategory !== "" &&
+            newCategoryHue && newCategoryHue !== "" &&
+            newProductName && newProductName !== "") {
+            let newCategoryData = {
+                hue: newCategoryHue.slice(4),
+                products: { [newProductName]: this.state.newProductToBuy }
+            }
+            fbDB.ref(`${this.dbRef}/${addNewCategory.toLowerCase()}`).set(newCategoryData);
+            this.setState({ 
+                isModalVisible: false,
+                addNewCategory: "",
+                newCategoryHue: "",
+                newProductName: "",
+            })
+        }
     }
     submitNewProduct = e => {
         e.preventDefault();
         let categoryProducts = {...this.state.categories[this.state.categoryClicked].products}
         categoryProducts[this.state.newProductName] = this.state.newProductToBuy;
-        console.log(this.state.newProductName);
         fbDB.ref(`${this.dbRef}/${this.state.categoryClicked}/products/`).set(categoryProducts);
         
         // MRUGNIĘCIE albo MODAL na 1s - POTWIERDZENIE DODANIA PRODUKTU DO LISTY
@@ -159,7 +191,6 @@ class ShowList extends Component {
         e.preventDefault();
         let allCategories = {...this.state.categories};
         let allProducts = {...allCategories[this.state.categoryClicked].products};
-        console.log(allProducts, this.state.productsToDelete)
         for (const prod in allProducts) {
             if (this.state.productsToDelete[prod]) {
                 delete allProducts[prod];
@@ -170,12 +201,24 @@ class ShowList extends Component {
     }
 
     tabClicked = e => {
-        console.log(e.currentTarget.id);
         this.setState({ tabToShow: e.currentTarget.id });
     }
 
     colorSwatchClicked = e => {
         this.setState({ newCategoryHue: e.target.id })
+    }
+
+    addNewCategoryClicked = e => {
+        this.setState({ 
+            isModalVisible: "visible",
+            addNewCategoryVisible: "showAddCategory",
+            addNewCategory: "",
+            newCategoryName: "",
+            newCategoryHue: "",
+            newProductName: "",
+            newCategoryNameError: "",
+            categoryClicked: "",
+        })
     }
 
     componentDidMount() { this.updateProductsFromDb(`${this.dbRef}`) }
@@ -208,14 +251,13 @@ class ShowList extends Component {
             if (productsToBuy.length > 0) {
                 toBuy.push( this.categoryElement(toBuy, ind, catName, hue) )
             }
-            toBuy.push( ...productsToBuy )
+            toBuy.push( ...productsToBuy );
             
             if (productsTheRest.length > 0) {
                 theRest.push( this.categoryElement(theRest, ind, catName, hue))
             }
-            theRest.push( ...productsTheRest )
+            theRest.push( ...productsTheRest );
         })
-        console.log(this.state)
 
         return ( 
             <div className={style.list} style={{fontSize: this.state.fontSize}}>
@@ -231,6 +273,11 @@ class ShowList extends Component {
                 <hr/>
                 <div className={style.theRest}>
                     {theRest}
+                </div>
+                <div className={style.addNewCategoryRow}>
+                    <div className={style.addNewCategory} id="addNewCategory" onClick={this.addNewCategoryClicked} >
+                        <span>+</span> DODAJ KATEGORIĘ
+                    </div>
                 </div>
 
                 <Modal  categoryClicked={this.state.categoryClicked}
@@ -249,6 +296,9 @@ class ShowList extends Component {
                         checkProductToDelete={this.checkProductToDelete}
                         tabClicked={this.tabClicked}
                         tabToShow={this.state.tabToShow}
+                        addNewCategoryVisible={this.state.addNewCategoryVisible}
+                        categoryNameError={this.state.categoryNameError}
+                        submitNewCategoryToDB={this.submitNewCategoryToDB}
                 />
             </div>
          );

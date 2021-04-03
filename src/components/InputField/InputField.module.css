@@ -81,11 +81,11 @@
 /* END RADIO-BUTTONS */
 
 .formField input.invalid {
-    background-color: #fdd;
+    background-color: #faa !important;
 }
 .formField input:focus {
     outline: none;
-    border-bottom: 1px solid #f00;
+    border-bottom: 1px solid #111;
 }
 .submit {
     margin: 15px 0px;
